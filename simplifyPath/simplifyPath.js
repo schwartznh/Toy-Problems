@@ -29,5 +29,20 @@
 // Output: "/c"
 
 var simplifyPath = function(path) {
-
+  let arrPath = path.split('/');
+  let answer = '';
+  arrPath.forEach((slug, i) => {
+    if (slug === '') {
+    } else if (slug === '..') {
+      if (i > 0) {
+        answer = answer.slice(0, answer.lastIndexOf('/'));
+      }
+    } else if (slug !== '' && slug !== '.'){
+      answer += `/${arrPath[i]}`;
+    }
+  })
+  if (answer === '') {
+      answer = '/';
+  }
+  return answer;
 };
