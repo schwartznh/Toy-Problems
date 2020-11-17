@@ -29,5 +29,21 @@
 // Output: "/c"
 
 var simplifyPath = function(path) {
-
+  var parts = path.split('/');
+  var storage = [];
+  for (var part of parts) {
+    if (!part.length || part === '.') {
+      continue;
+    }
+    if (part === '..') {
+      storage.pop();
+    } else {
+      storage.push(part);
+    }
+  }
+  var path = '';
+  for (var part of storage) {
+    path += `/${part}`;
+  }
+  return path === '' ? '/' : path;
 };
