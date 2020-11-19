@@ -8,5 +8,21 @@
 // Output: 1->2->2->4->3->5
 
 var partition = function(head, x) {
-
+  var lessList = { val: null, next: null };
+  var greaterList = { val: null, next: null };
+  var bothNode = head;
+  var lessNode = lessList;
+  var greaterNode = greaterList;
+  while (bothNode) {
+    if (bothNode.val >= x) {
+      greaterNode.next = { val: bothNode.val, next: null};
+      greaterNode = greaterNode.next;
+    } else {
+      lessNode.next = { val: bothNode.val, next: null };
+      lessNode = lessNode.next;
+    }
+    bothNode = bothNode.next;
+  }
+  lessNode.next = greaterList.next;
+  return lessList.next;
 };
