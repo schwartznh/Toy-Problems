@@ -26,5 +26,34 @@
 // board and word consists only of lowercase and uppercase English letters.
 
 var exist = function(board, word) {
+  var recurse = function(row, col, idx) {
+    if (idx === word.length) {
+      return true;
+    }
+    if (!board[row] || word[idx] !== board[row][col]) {
+      return;
+    }
+    var char = board[row][col];
+    board[row][col] = 0;
 
+    for (var [newRow, newCol] of [[row, col + 1], [row + 1, col], [row, col - 1], [row - 1, col]]) {
+      if (recurse(newRow, newCol, idx + 1)) {
+        return true;
+      }
+    }
+
+    board[row][col] = char;
+  };
+
+  for (var row = 0; row < board.length; row++) {
+    for (var col = 0; col < board[row].length; col++) {
+      if (board[row][col] === word[0]) {
+        if (recurse(row, col, 0)) {
+          return true;
+        }
+      }
+    }
+  }
+
+  return false;
 };
