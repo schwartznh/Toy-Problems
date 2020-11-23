@@ -24,5 +24,30 @@
 //           6
 
 var flatten = function(root) {
-
+  if (!root) {
+    return;
+  }
+  if (!root.left && !root.right) {
+    return;
+  }
+  if (!root.left) {
+    flatten(root.right);
+    return;
+  }
+  if (!root.right) {
+    flatten(root.left);
+    root.right = root.left;
+    root.left = null;
+    return;
+  }
+  flatten(root.left);
+  flatten(root.right);
+  var righty = root.right;
+  root.right = root.left;
+  root.left = null;
+  var node = root.right;
+  while (node.right) {
+    node = node.right;
+  }
+  node.right = righty;
 };
