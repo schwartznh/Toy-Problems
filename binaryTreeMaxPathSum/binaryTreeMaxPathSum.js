@@ -12,6 +12,32 @@
 // Output: false
 // Explanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.
 
-var canJump = function(nums) {
+var maxPathSum = function(root) {
+  var foundPos = false;
+  var max = -Infinity;
 
+  var recurse = function(root, mustIncludeSelf) {
+      if (!root) {
+          return 0;
+      }
+      if (!foundPos) {
+          if (root.val > 0) {
+              foundPos = true;
+          } else {
+              max = Math.max(max, root.val);
+          }
+      }
+
+      var leftConnected = recurse(root.left, true);
+      var rightConnected = recurse(root.right, true);
+      if (mustIncludeSelf) {
+          return Math.max(root.val, root.val + leftConnected, root.val + rightConnected);
+      }
+      var leftMax = recurse(root.left, false);
+      var rightMax = recurse(root.right, false);
+      return Math.max(root.val, root.val + leftConnected, root.val + rightConnected, root.val + leftConnected + rightConnected, leftMax, rightMax);
+  };
+
+  var sum = recurse(root);
+  return foundPos ? sum : max;
 };
